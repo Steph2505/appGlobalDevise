@@ -1,0 +1,77 @@
+@import './variables.css';
+
+@import './variables.css';
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font);
+    font-size: var(--f-base);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+}
+
+h1 {
+    font-size: var(--f-2xl);
+    font-weight: var(--f-bold);
+}
+
+h2 {
+    font-size: var(--f-xl);
+    font-weight: var(--f-medium);
+}
+
+h3 {
+    font-size: var(--f-lg);
+    font-weight: var(--f-medium);
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: var(--r-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-4);
+}
+
+.layout {
+    display: flex;
+    height: 100vh;
+}
+
+.main {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+@media (max-width: 767px) {
+    .layout {
+        flex-direction: column;
+    }
+}

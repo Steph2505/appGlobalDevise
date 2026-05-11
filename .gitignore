@@ -1,0 +1,24 @@
+# Dépendances
+deviseApp-back/vendor/
+deviseApp-front/node_modules/
+
+# Variables d'environnement
+deviseApp-back/.env
+deviseApp-front/.env
+
+# Build frontend
+deviseApp-front/dist/
+
+# Cache Laravel
+deviseApp-back/bootstrap/cache/*.php
+deviseApp-back/storage/logs/*.log
+deviseApp-back/storage/framework/cache/
+deviseApp-back/storage/framework/sessions/
+deviseApp-back/storage/framework/views/
+
+# Uploads
+deviseApp-back/storage/app/public/
+
+# OS
+.DS_Store
+Thumbs.db

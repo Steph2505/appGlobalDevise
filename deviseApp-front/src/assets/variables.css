@@ -1,0 +1,64 @@
+:root {
+  --primary:#533AB7;
+  --primary-light:#EEEDFE;
+  --primary-hover:#4730a3;
+  --danger:#E24B4A;
+  --danger-light:#FCEBEB;
+  --danger-hover:#c73f3e;
+  --success:#3B6D11;
+  --success-light:#EAF3DE;
+  --warning:#BA7517;
+  --warning-light:#FAEEDA;
+
+  --text:#333333;
+  --text-2:#666666;
+  --text-3:#999999;
+  --text-4:#BBBBBB;
+
+  --bg:#F5F5F5;
+  --bg-white:#FFFFFF;
+  --bg-soft:#FAFAFA;
+  --bg-gray:#F3F3F3;
+
+  --border:#EEEEEE;
+  --border-focus:#533AB7;
+  --border-error:#E24B4A;
+
+  --r-sm:4px;
+  --r-md:8px;
+  --r-lg:12px;
+  --r-xl:14px;
+  --r-full:9999px;
+
+  --s-xs:4px;
+  --s-sm:8px;
+  --s-md:12px;
+  --s-lg:16px;
+  --s-xl:24px;
+  --s-2xl:32px;
+
+  --font:'Inter',sans-serif;
+  --f-xs:11px;
+  --f-sm:12px;
+  --f-md:13px;
+  --f-base:14px;
+  --f-lg:16px;
+  --f-xl:18px;
+  --f-2xl:20px;
+  --f-3xl:24px;
+  --f-normal:400;
+  --f-medium:500;
+  --f-bold:600;
+
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+
+  --sidebar-w:220px;
+  --sidebar-collapsed-w:64px;
+  --topbar-h:56px;
+  --sidebar-bg:#FAFAFA;
+  --sidebar-border:#EEEEEE;
+
+  --transition:0.2s ease;
+}
