@@ -32,7 +32,7 @@ onMounted(() => fetchOne(id))
     <AppSidebar />
     <main class="main">
       <AppHeader title="Détail de l'utilisateur">
-        <AppButton variant="secondary" @click="router.back()"> ← Retour </AppButton>
+        <AppButton variant="secondary" @click="router.back()"> Retour </AppButton>
       </AppHeader>
 
       <div v-if="loading" class="loading">Chargement...</div>

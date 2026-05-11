@@ -9,46 +9,52 @@ const emit = defineEmits(['edit', 'delete'])
 </script>
 
 <template>
-  <div class="card">
-    <div class="card-header">
-      <div class="avatar">
-        {{ user.name.charAt(0).toUpperCase() }}
+  <div class="card-form">
+    <div class="card">
+      <div class="card-header">
+        <div class="avatar">
+          {{ user.name.charAt(0).toUpperCase() }}
+        </div>
+        <div>
+          <h2 class="user-name">{{ user.name }}</h2>
+          <p class="user-email">{{ user.email }}</p>
+        </div>
       </div>
-      <div>
-        <h2 class="user-name">{{ user.name }}</h2>
-        <p class="user-email">{{ user.email }}</p>
+  
+      <div class="card-details">
+        <div class="detail-row">
+          <span class="detail-label">Compte créé le</span>
+          <span class="detail-value">
+            {{ new Date(user.created_at).toLocaleDateString('fr-FR') }}
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Dernière mise à jour</span>
+          <span class="detail-value">
+            {{ new Date(user.updated_at).toLocaleDateString('fr-FR') }}
+          </span>
+        </div>
       </div>
-    </div>
-
-    <div class="card-details">
-      <div class="detail-row">
-        <span class="detail-label">Compte créé le</span>
-        <span class="detail-value">
-          {{ new Date(user.created_at).toLocaleDateString('fr-FR') }}
-        </span>
+  
+      <div class="card-footer">
+        <AppButton variant="secondary" @click="emit('edit', user)"> Modifier </AppButton>
+        <AppButton variant="danger" @click="emit('delete', user.id)"> Supprimer </AppButton>
       </div>
-      <div class="detail-row">
-        <span class="detail-label">Dernière mise à jour</span>
-        <span class="detail-value">
-          {{ new Date(user.updated_at).toLocaleDateString('fr-FR') }}
-        </span>
-      </div>
-    </div>
-
-    <div class="card-footer">
-      <AppButton variant="secondary" @click="emit('edit', user)"> ✏️ Modifier </AppButton>
-      <AppButton variant="danger" @click="emit('delete', user.id)"> 🗑 Supprimer </AppButton>
     </div>
   </div>
 </template>
 
 <style scoped>
+.card-form {
+  display: flex;
+  justify-content: center;
+}
 .card {
   background: #fff;
   border: 1px solid #eee;
   border-radius: 12px;
   padding: 1.5rem;
-  max-width: 480px;
+  width: 600px;
 }
 .card-header {
   display: flex;
