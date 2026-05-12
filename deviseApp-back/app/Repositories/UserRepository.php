@@ -50,17 +50,17 @@ class UserRepository extends ResourceRepository
     
                 return $user;
             });
+            Mail::to($user->email)->send(new UserCredentialsMail(
+                name: $user->name,
+                email: $user->email,
+                password: $generatedPassword,
+            ));
         } catch (Exception $th) {
             Log::info('dfsdfsd',[
                 'message' => $th->getMessage()
             ]);
         }
 
-        Mail::to($user->email)->send(new UserCredentialsMail(
-            name: $user->name,
-            email: $user->email,
-            password: $generatedPassword,
-        ));
 
         return $user;
     }

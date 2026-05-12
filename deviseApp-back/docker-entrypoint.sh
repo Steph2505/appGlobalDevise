@@ -5,6 +5,10 @@ if [ ! -f /var/www/html/vendor/autoload.php ]; then
     composer install --no-interaction --prefer-dist --optimize-autoloader
 fi
 
+mkdir -p /var/www/html/storage/framework/views
+mkdir -p /var/www/html/storage/framework/sessions
+mkdir -p /var/www/html/storage/framework/cache/data
+
 if [ ! -f /var/www/html/.env ]; then
     cp /var/www/html/.env.example /var/www/html/.env
     sed -i "s|DB_HOST=.*|DB_HOST=${DB_HOST:-db}|"                 /var/www/html/.env
