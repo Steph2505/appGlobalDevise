@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useDevise } from '@/composable/useDevise'
 import { useToast } from '@/composable/useToast'
 
@@ -9,17 +9,17 @@ import AppHeader from '@/components/globales/AppHeader.vue'
 import AppButton from '@/components/globales/AppButton.vue'
 import DeviseCreate from '@/components/devise/DeviseCreate.vue'
 
-const route = useRoute()
+
 const router = useRouter()
 
 const { selectedDevise, loading, errors, fetchOne, update } = useDevise()
 const { show } = useToast()
 
-const id = Number(route.params.id)
+const id = Number(router.params.id)
 
 async function handleSubmit(formData) {
   const success = await update(id, formData)
-  if (success) {
+  if (success) { 
     show({ message: 'Devise modifiée avec succès.' })
     router.push({ name: 'devises.index' })
   }

@@ -10,6 +10,7 @@ const useStore = useAuthStore()
 
 const navLinks = [
   { name: 'Devises',       path: '/devises', icon: 'fas fa-money-bill' },
+  { name: 'Clients',       path: '/customers',   icon: 'fas fa-user', permission: 'gestion_user' },
   { name: 'Utilisateurs',  path: '/users',   icon: 'fas fa-users', permission: 'gestion_user' },
 ]
 

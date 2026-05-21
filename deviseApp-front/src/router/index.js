@@ -13,6 +13,11 @@ import UserCreateView  from '@/views/dashboard/users/UserCreateView.vue'
 import UserEditView    from '@/views/dashboard/users/UserEditView.vue'
 import UserShowView    from '@/views/dashboard/users/UserShowView.vue'
 
+import CustomersView       from '@/views/dashboard/CustomersView.vue'
+import CreateView from '@/views/dashboard/customers/CreateView.vue'
+import EditView   from '@/views/dashboard/customers/EditView.vue'
+import ShowView   from '@/views/dashboard/customers/ShowView.vue'
+
 const routes = [
   {
     path: '/',
@@ -50,6 +55,32 @@ const routes = [
     name: 'devises.edit',
     component: DeviseEditView,
     meta: { requiresAuth: true, title: 'Modifier une devise' },
+  },
+
+  // Routes des clients
+  {
+    path: '/customers',
+    name: 'customers.index',
+    component: CustomersView,
+    meta: { requiresAuth: true, title: 'Gestion des clients' },
+  },
+  {
+    path: '/customers/create',
+    name: 'customers.create',
+    component: CreateView,
+    meta: { requiresAuth: true, title: 'Ajouter un client' },
+  },
+  {
+    path: '/customers/:id',
+    name: 'customers.show',
+    component: ShowView,
+    meta: { requiresAuth: true, title: 'Détail client' },
+  },
+  {
+    path: '/customers/:id/edit',
+    name: 'customers.edit',
+    component: EditView,
+    meta: { requiresAuth: true, title: 'Modifier un client' },
   },
 
   // Routes utilisateurs
