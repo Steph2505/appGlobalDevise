@@ -17,10 +17,15 @@ class AccessRightSeeder extends Seeder
     {
         try {
             $rights = [
-                $this->createAccessRight('create_devise', 'Droit de créer des devises'),
-                $this->createAccessRight('update_devise', 'Droit de modifier les devises'),
-                $this->createAccessRight('show_devise', 'Droit de visualiser les devises'),
-                $this->createAccessRight('delete_devise', 'Droit de supprimer les devises'),
+                $this->createAccessRight('create_devis', 'Droit de créer des devis'),
+                $this->createAccessRight('update_devis', 'Droit de modifier les devis'),
+                $this->createAccessRight('show_devis', 'Droit de visualiser les devis'),
+                $this->createAccessRight('delete_devis', 'Droit de supprimer les devis'),
+                $this->createAccessRight('index_customer', 'Droit de visualiser la liste des clients'),
+                $this->createAccessRight('create_customer', 'Droit de créer des clients'),
+                $this->createAccessRight('update_customer', 'Droit de modifier les clients'),
+                $this->createAccessRight('show_customer', 'Droit de visualiser les clients'),
+                $this->createAccessRight('delete_customer', 'Droit de supprimer les clients'),
                 $this->createAccessRight('gestion_user', 'Droit de gérer les utilisateurs'),
             ];
 

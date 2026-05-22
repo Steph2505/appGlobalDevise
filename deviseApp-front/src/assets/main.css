@@ -75,3 +75,7 @@ a:hover {
         flex-direction: column;
     }
 }
+
+#__vue-devtools-container__{
+    display: none !important;
+}

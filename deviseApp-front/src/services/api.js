@@ -26,7 +26,7 @@ api.interceptors.response.use(
   (error) => {
     const status = error.response?.status
 
-    // Token expiré ou invalide 
+    // Token expiré ou invalide
     if (status === 401) {
       localStorage.removeItem('token')
       localStorage.removeItem('user')

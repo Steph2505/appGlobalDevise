@@ -50,10 +50,11 @@ const emit = defineEmits(['close'])
 .modal {
     background: var(--bg-white);
     border-radius: var(--r-lg);
-    width: 460px;
+    /* width: 460px; */
     max-width: 100%;
     padding: var(--s-xl);
     box-shadow: var(--shadow-lg);
+    overflow-y: scroll;
 }
 
 .modal-header {

@@ -23,22 +23,22 @@ const emit = defineEmits(['edit', 'delete'])
   
       <div class="card-details">
         <div class="detail-row">
-          <span class="detail-label">Compte créé le</span>
+          <span class="detail-label">Account created on</span>
           <span class="detail-value">
-            {{ new Date(user.created_at).toLocaleDateString('fr-FR') }}
+            {{ new Date(user.created_at).toLocaleDateString('en-US') }}
           </span>
         </div>
         <div class="detail-row">
-          <span class="detail-label">Dernière mise à jour</span>
+          <span class="detail-label">Last updated</span>
           <span class="detail-value">
-            {{ new Date(user.updated_at).toLocaleDateString('fr-FR') }}
+            {{ new Date(user.updated_at).toLocaleDateString('en-US') }}
           </span>
         </div>
       </div>
   
       <div class="card-footer">
-        <AppButton variant="secondary" @click="emit('edit', user)"> Modifier </AppButton>
-        <AppButton variant="danger" @click="emit('delete', user.id)"> Supprimer </AppButton>
+        <AppButton variant="secondary" @click="emit('edit', user)"> Edit </AppButton>
+        <AppButton variant="danger" @click="emit('delete', user.id)"> Delete </AppButton>
       </div>
     </div>
   </div>

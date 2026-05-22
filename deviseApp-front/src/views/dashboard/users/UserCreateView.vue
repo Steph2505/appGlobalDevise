@@ -15,7 +15,7 @@ const { show } = useToast()
 async function handleSubmit(formData) {
   const success = await create(formData)
   if (success) {
-    show({ message: 'Utilisateur créé avec succès.' })
+    show({ message: 'User created successfully.' })
     router.push({ name: 'users.index' })
   }
 }
@@ -25,8 +25,8 @@ async function handleSubmit(formData) {
   <div class="layout">
     <AppSidebar />
     <main class="main">
-      <AppHeader title="Ajouter un utilisateur">
-        <AppButton variant="secondary" @click="router.back()"> ← Retour </AppButton>
+      <AppHeader title="Add user">
+        <AppButton variant="secondary" @click="router.back()"> Back </AppButton>
       </AppHeader>
 
       <div class="form-wrap">
@@ -48,7 +48,7 @@ async function handleSubmit(formData) {
 }
 
 .form-wrap {
-  max-width: 520px;
+  /* max-width: 520px; */
 }
 
 @media (max-width: 767px) {

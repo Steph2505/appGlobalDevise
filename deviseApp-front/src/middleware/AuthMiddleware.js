@@ -17,7 +17,7 @@ export function authMiddleware(to, from) {
   }
 
   if (requiresGuest && authStore.isAuthenticated) {
-    return { path: '/devise' }
+    return { path: '/devis' }
   }
 
   return true

@@ -10,7 +10,6 @@ defineProps({
     <div class="stat-card">
       <p class="stat-label">Total utilisateurs</p>
       <p class="stat-value">{{ totalUsers }}</p>
-      <p class="stat-sub">comptes enregistrés</p>
     </div>
 
   </div>

@@ -1,35 +1,45 @@
 <?php
 
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DevisController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/auth/register', [AuthController::class, 'register']);
-Route::post('/login',    [AuthController::class, 'login']);
+// Routes publiques
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
     // Auth
     Route::get('/auth/me',      [AuthController::class, 'me']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
 
-    Route::prefix('devises')->group(function () {
-
-        Route::get('/', [DevisController::class, 'index']);
-        Route::post('/store', [DevisController::class, 'store']);
-        Route::get('/{devise}', [DevisController::class, 'show']);
-        Route::put('/{devise}', [DevisController::class, 'update']);
-        Route::delete('/{devise}', [DevisController::class, 'destroy']);
+    // Devis
+    Route::prefix('devis')->group(function () {
+        Route::get('/',        [DevisController::class, 'index']);
+        Route::post('/',       [DevisController::class, 'store']);
+        Route::get('/{id}',    [DevisController::class, 'show']);
+        Route::put('/{id}',    [DevisController::class, 'update']);
+        Route::delete('/{id}', [DevisController::class, 'destroy']);
     });
 
-    Route::prefix('users')->group(function () {
+    // Clients
+    Route::prefix('customers')->group(function () {
+        Route::get('/',        [CustomerController::class, 'index']);
+        Route::post('/store',  [CustomerController::class, 'store']);
+        Route::get('/{id}',    [CustomerController::class, 'show']);
+        Route::put('/{id}',    [CustomerController::class, 'update']);
+        Route::delete('/{id}', [CustomerController::class, 'destroy']);
+    });
 
-        Route::get('/', [UserController::class, 'index']);
-        Route::post('/', [UserController::class, 'store']);
-        Route::get('/create', [UserController::class, 'create']);
-        Route::get('/{user}', [UserController::class, 'show']);
-        Route::put('/{user}', [UserController::class, 'update']);
+    // Utilisateurs
+    Route::prefix('users')->group(function () {
+        Route::get('/',          [UserController::class, 'index']);
+        Route::post('/',         [UserController::class, 'store']);
+        Route::get('/create',    [UserController::class, 'create']);
+        Route::get('/{user}',    [UserController::class, 'show']);
+        Route::put('/{user}',    [UserController::class, 'update']);
         Route::delete('/{user}', [UserController::class, 'destroy']);
     });
 

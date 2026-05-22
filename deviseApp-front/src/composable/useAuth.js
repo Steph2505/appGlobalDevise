@@ -11,7 +11,7 @@ export function useAuth() {
   async function login(data) {
     try {
       await authStore.login(data)
-      router.push('/devises')
+      router.push('/devis')
     } catch (error) {
       console.log('Erreur connexion :', error)
     }

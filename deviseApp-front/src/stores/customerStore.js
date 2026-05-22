@@ -1,28 +1,23 @@
-import {defineStore} from "pinia";
-import {ref, computed} from "vue";
-import customerService from "@/services/customer";
+import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
+import customerService from '@/services/customer'
 
 export const useCustomerStore = defineStore('customer', () => {
 
-    const customers = ref([])
+    const customers       = ref([])
     const selectedCustomer = ref(null)
-    const loading = ref(false)
-    const errors = ref({})
+    const loading          = ref(false)
+    const errors           = ref({})
 
-    const totalCustomers  = computed(() => customers.value.length)
-    const isLoading = computed(() => loading.value)
+    const totalCustomers = computed(() => customers.value.length)
 
-    // Récupérer tous les clients
     async function fetchAll() {
         loading.value = true
         errors.value  = {}
         try {
             const response = await customerService.getAll()
-            console.log('Réponse  :', response.data)
-            const result = response.data.data
-
+            const result   = response.data.data
             customers.value = Array.isArray(result) ? result : result.data ?? []
-
             return response.data
         } catch (error) {
             ResponseError(error)
@@ -32,7 +27,6 @@ export const useCustomerStore = defineStore('customer', () => {
         }
     }
 
-    // Show un client
     async function fetchOne(id) {
         loading.value = true
         errors.value  = {}
@@ -47,8 +41,7 @@ export const useCustomerStore = defineStore('customer', () => {
             loading.value = false
         }
     }
-    
-    // Store un client 
+
     async function create(data) {
         loading.value = true
         errors.value  = {}
@@ -64,13 +57,51 @@ export const useCustomerStore = defineStore('customer', () => {
         }
     }
 
+    async function update(id, data) {
+        loading.value = true
+        errors.value  = {}
+        try {
+            const response = await customerService.update(id, data)
+            const index = customers.value.findIndex(c => c.id === id)
+            if (index !== -1) customers.value[index] = response.data.data
+            return response.data
+        } catch (error) {
+            ResponseError(error)
+            throw error
+        } finally {
+            loading.value = false
+        }
+    }
+
+    async function remove(id) {
+        loading.value = true
+        errors.value  = {}
+        try {
+            await customerService.delete(id)
+            customers.value = customers.value.filter(c => c.id !== id)
+        } catch (error) {
+            ResponseError(error)
+            throw error
+        } finally {
+            loading.value = false
+        }
+    }
+
+    function clearSelected() {
+        selectedCustomer.value = null
+    }
+
+    function ResponseError(error) {
+        if (error.response?.data?.errors) {
+            errors.value = error.response.data.errors
+        } else if (error.response?.data?.message) {
+            errors.value = { general: error.response.data.message }
+        }
+    }
+
     return {
-        customers,
-        selectedCustomer,
+        customers, selectedCustomer, loading, errors,
         totalCustomers,
-        isLoading,
-        fetchAll,
-        fetchOne,
-        create,
+        fetchAll, fetchOne, create, update, remove, clearSelected,
     }
 })

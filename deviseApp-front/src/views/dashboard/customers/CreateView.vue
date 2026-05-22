@@ -15,7 +15,7 @@
     async function handleSubmit(formData) {
         const success = await create(formData)
         if (success) {
-            show({ message: 'Client créé avec succès.' })
+            show({ message: 'Customer created successfully.' })
             router.push({ name: 'customers.index' })
         }
     }
@@ -25,8 +25,8 @@
     <div class="layout">
         <AppSidebar />
         <main class="main">
-            <AppHeader title="Ajouter un client">
-                <AppButton variant="secondary" @click="router.back()"> ← Retour </AppButton>
+            <AppHeader title="Add customer">
+                <AppButton variant="secondary" @click="router.back()"> ← Back </AppButton>
             </AppHeader>
 
             <div class="form-wrap">

@@ -87,9 +87,9 @@ function handleSubmit() {
                     placeholder="Enter customer address"
                 />
                 </div>
-                <div class="form-row buttons">
-                <AppButton @click="handleSubmit" :loading="loading">Submit</AppButton>
-                <AppButton @click="$emit('cancel')" type="secondary">Cancel</AppButton>
+                <div class="buttons">
+                    <AppButton @click="handleSubmit" :loading="loading" variant="primary">Submit </AppButton>
+                    <AppButton @click="$emit('cancel')" variant="secondary">Cancel</AppButton>
                 </div>
             </div>
         </div>
@@ -101,28 +101,23 @@ function handleSubmit() {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
 }
 
 .content-form {
   width: 400px;
-  background-color: #fff;
-  padding: 20px;
+  background-color: var(--bg-white);
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 .form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-.form-row {
-  display: flex;
-  flex-direction: column;
-}
-.buttons {  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+
+.buttons {  
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 </style>

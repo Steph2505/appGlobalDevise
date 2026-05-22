@@ -46,7 +46,7 @@
 
     async function handleDelete(id) {
         const success = await remove(id)
-        if (success) show({ message: 'Client supprimé avec succès.' })
+        if (success) show({ message: 'Customer deleted successfully.' })
     }   
 
     onMounted(() => fetchAll())
@@ -56,35 +56,33 @@
     <div class="layout">
         <AppSidebar />
         <main class="main">
-            <AppHeader title="Clients">
-                <AppButton variant="primary" @click="openCreate" v-if="authStore.permission({ permission: 'create_customer' })">
-                    + Ajouter
+            <AppHeader title="Customers">
+                <AppButton variant="primary" @click="openCreate" >
+                    Add customer
                 </AppButton>
             </AppHeader>
 
+            
+            <Index :total="totalCustomers" />
+            
             <div class="search-wrap">
                 <input
                     type="text"
                     v-model="searchQuery"
-                    placeholder="Rechercher par nom ou email..."
+                    placeholder="Search by name or email..."
                     class="search-input"
                 />
             </div>
 
-            <div v-if="loading" class="loading">Chargement...</div>
+            <Listing
+                :customers="filteredCustomers"
+                :loading="loading"
+                @show="goToShow"
+                @edit="goToEdit"
+                @delete="handleDelete"
+            />
 
-            <Index v-else :total="totalCustomers">
-                <Listing
-                    v-for="customer in filteredCustomers"
-                    :key="customer.id"
-                    :customer="customer"
-                    @show="goToShow"
-                    @edit="goToEdit"
-                    @delete="handleDelete"
-                />
-            </Index>
-
-            <AppModal title="Ajouter un client" :show="showModal" @close="closeModal">
+            <AppModal title="Add customer" :show="showModal" @close="closeModal">
                 <Create
                     :errors="errors"
                     :loading="loading"
@@ -92,7 +90,7 @@
                         async (formData) => {
                             const success = await create(formData)
                             if (success) {
-                                show({ message: 'Client créé avec succès.' })
+                                show({ message: 'Customer created successfully.' })
                                 closeModal()
                             }
                         }
@@ -105,39 +103,43 @@
 </template>
 
 <style scoped>
-.main {
-  padding: var(--s-2xl);
-  background: var(--bg-white);
-}
+    .search-wrap {
+        margin-bottom: var(--s-lg);
+    }
 
-.search-bar {
-  margin-bottom: var(--s-lg);
-}
+    .main {
+    padding: var(--s-2xl);
+    background: var(--bg-white);
+    }
 
-.search-input {
-  width: 100%;
-  max-width: 360px;
-  height: 38px;
-  padding: 0 var(--s-lg);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  font-size: var(--f-base);
-  color: var(--text);
-  transition: border-color var(--transition);
-}
+    .search-bar {
+    margin-bottom: var(--s-lg);
+    }
 
-.search-input:focus {
-  outline: none;
-  border-color: var(--border-focus);
-}
+    .search-input {
+    width: 100%;
+    max-width: 360px;
+    height: 38px;
+    padding: 0 var(--s-lg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    font-size: var(--f-base);
+    color: var(--text);
+    transition: border-color var(--transition);
+    }
 
-@media (max-width: 768px) {
-  .main {
-    padding: var(--s-lg);
-  }
+    .search-input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    }
 
-  .search-input {
-    max-width: 100%;
-  }
-}
+    @media (max-width: 768px) {
+        .main {
+            padding: var(--s-lg);
+        }
+
+        .search-input {
+            max-width: 100%;
+        }
+    }
 </style>

@@ -2,207 +2,168 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\DeviseRepository;
+use App\Repositories\DevisRepository;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Exception;
 
 class DevisController extends Controller
 {
-    protected $deviseRepository;
-
-    public function __construct(DeviseRepository $deviseRepository)
-    {
-        $this->deviseRepository = $deviseRepository;
+    protected $devisRepository;
+    public function __construct(DevisRepository $devisRepository) {
+        $this->devisRepository = $devisRepository;
     }
 
-    //Liste des devises
-    public function index(Request $request)
+    public function index()
     {
         try {
-
-            $perPage = $request->get('per_page', 15);
-            $devises = $this->deviseRepository->getPaginate($perPage);
+            $devis = $this->devisRepository->getAll();
 
             return response()->json([
                 'success' => true,
-                'data' => $devises,
-                'message' => 'Liste des devises récupérée avec succès'
+                'data'    => $devis,
+                'message' => 'Liste des devis récupérée avec succès',
             ]);
-
         } catch (Exception $e) {
-            Log::error('Erreur lors de la récupération des devises : ' . $e->getMessage());
+            Log::error('Erreur liste devis : ' . $e->getMessage());
 
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la récupération des devises',
-                'error' => $e->getMessage()
+                'message' => 'Erreur lors de la récupération des devis',
             ], 500);
         }
     }
 
-    //Store devise
     public function store(Request $request)
     {
         try {
-
             $validator = Validator::make($request->all(), [
-                'code' => 'required|string|size:3|unique:devises,code',
-                'name' => 'required|string|max:255',
-                'symbol' => 'required|string|max:10',
-                'exchange_rate' => 'required|numeric|min:0',
-                'is_active' => 'boolean',
+                'client_id' => 'required|exists:customers,id',
+                'status' => 'required|in:Drafts,Validated',
+                'montant_total' => 'required|numeric|min:0',
+                'lignes' => 'required|array|min:1',
+                'lignes.*.intitule' => 'required|string|max:500',
+                'lignes.*.quantite' => 'required|integer|min:1',
+                'lignes.*.prix_unitaire' => 'required|numeric|min:0',
+                'lignes.*.total' => 'required|numeric|min:0',
             ]);
 
             if ($validator->fails()) {
-                Log::warning('Verification des données échouée', ['errors' => $validator->errors()]);
-
                 return response()->json([
                     'success' => false,
-                    'message' => 'Validation des données échouée',
-                    'errors' => $validator->errors()
+                    'message' => 'Validation échouée',
+                    'errors'  => $validator->errors(),
                 ], 422);
             }
-            
-            $request['user_id'] = Auth()->id();
-            $devise = $this->deviseRepository->store($request->all());
+
+            $devis = $this->devisRepository->createWithLignes(
+                [
+                    'client_id' => $request->client_id,
+                    'user_id' => auth()->id(),
+                    'status' => $request->status,
+                    'montant_total' => $request->montant_total,
+                ],
+                $request->lignes
+            );
 
             return response()->json([
                 'success' => true,
-                'data' => $devise,
-                'message' => 'Devise créée avec succès'
+                'data'=> $devis,
+                'message' => 'Devis créé avec succès',
             ], 201);
-
         } catch (Exception $e) {
-            Log::error('Erreur lors de la création de la devise : ' . $e->getMessage());
+            Log::error('Erreur création devis : ' . $e->getMessage());
 
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la création de la devise',
-                'error' => $e->getMessage()
+                'message' => 'Erreur lors de la création du devis',
             ], 500);
         }
     }
 
-    //detail devise
-    public function show($id)
+    public function show(int $id)
     {
         try {
-
-            $devise = $this->deviseRepository->getById($id);
-
-            if (!$devise) {
-                Log::warning('Devise indisponible', ['id' => $id]);
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Devise indisponible'
-                ], 404);
-            }
+            $devis = $this->devisRepository->findById($id);
 
             return response()->json([
-                'success' => true,
-                'data' => $devise,
-                'message' => 'Devise récupérée avec succès'
+                'success'=> true,
+                'data' => $devis,
+                'message' => 'Devis récupéré avec succès',
             ]);
-
         } catch (Exception $e) {
-            Log::error('Erreur lors de la récupération de la devise : ' . $e->getMessage());
+            Log::error('Erreur récupération devis #' . $id . ' : ' . $e->getMessage());
 
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la récupération de la devise',
-                'error' => $e->getMessage()
-            ], 500);
+                'message' => 'Devis introuvable',
+            ], 404);
         }
     }
 
-    //update devise
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         try {
-
-            $devise = $this->deviseRepository->getById($id);
-
-            if (!$devise) {
-                Log::warning('Devise non trouvée', ['id' => $id]);
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Devise non trouvée'
-                ], 404);
-            }
-
             $validator = Validator::make($request->all(), [
-                'code' => 'required|string|size:3|unique:devises,code,' . $id,
-                'name' => 'required|string|max:255',
-                'symbol' => 'required|string|max:10',
-                'exchange_rate' => 'required|numeric|min:0',
-                'is_active' => 'boolean',
+                'client_id' => 'required|exists:customers,id',
+                'status' => 'required|in:Drafts,Validated',
+                'montant_total' => 'required|numeric|min:0',
+                'lignes' => 'required|array|min:1',
+                'lignes.*.intitule' => 'required|string|max:500',
+                'lignes.*.quantite' => 'required|integer|min:1',
+                'lignes.*.prix_unitaire' => 'required|numeric|min:0',
+                'lignes.*.total'         => 'required|numeric|min:0',
             ]);
 
             if ($validator->fails()) {
-                Log::warning('Validation des données échouée', ['errors' => $validator->errors()]);
-
                 return response()->json([
                     'success' => false,
-                    'message' => 'Validation des données échouée',
-                    'errors' => $validator->errors()
+                    'message' => 'Validation échouée',
+                    'errors'  => $validator->errors(),
                 ], 422);
             }
-            $request['user_id'] = Auth()->id();
-            $updatedDevise = $this->deviseRepository->update($id, $request->all());
 
-            // $updatedDevise = $this->deviseRepository->getById($id);
+            $devis = $this->devisRepository->updateWithLignes(
+                $id,
+                [
+                    'client_id'=> $request->client_id,
+                    'status' => $request->status,
+                    'montant_total' => $request->montant_total,
+                ],
+                $request->lignes
+            );
 
             return response()->json([
                 'success' => true,
-                'data' => $updatedDevise,
-                'message' => 'Devise mise à jour avec succès'
+                'data' => $devis,
+                'message' => 'Devis mis à jour avec succès',
             ]);
-
         } catch (Exception $e) {
-            Log::error('Erreur lors de la mise à jour de la devise : ' . $e->getMessage());
+            Log::error('Erreur mise à jour devis #' . $id . ' : ' . $e->getMessage());
 
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la mise à jour de la devise',
-                'error' => $e->getMessage()
+                'message' => 'Erreur lors de la mise à jour du devis',
             ], 500);
         }
     }
 
-    //delete devise
-    public function destroy($id)
+    public function destroy(int $id)
     {
         try {
-
-            $devise = $this->deviseRepository->getById($id);
-
-            if (!$devise) {
-                Log::warning('Devise non trouvée pour suppression', ['id' => $id]);
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Devise non trouvée'
-                ], 404);
-            }
-
-            $this->deviseRepository->destroy($id);
+            $this->devisRepository->deleteById($id);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Devise supprimée avec succès'
+                'message' => 'Devis supprimé avec succès',
             ]);
-
         } catch (Exception $e) {
-            Log::error('Erreur lors de la suppression de la devise : ' . $e->getMessage());
+            Log::error('Erreur suppression devis #' . $id . ' : ' . $e->getMessage());
 
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la suppression de la devise',
-                'error' => $e->getMessage()
+                'message' => 'Erreur lors de la suppression du devis',
             ], 500);
         }
     }

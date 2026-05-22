@@ -1,6 +1,6 @@
 <script setup>
     import { onMounted } from 'vue'
-    import {useRouter } from 'vue-router'
+    import { useRoute, useRouter } from 'vue-router'
     import { useCustomer } from '@/composable/useCustomer'
 
     import AppSidebar from '@/components/globales/AppSidebar.vue'
@@ -8,9 +8,10 @@
     import AppButton from '@/components/globales/AppButton.vue'
     import Show from '@/components/customer/Show.vue'
 
+    const route  = useRoute()
     const router = useRouter()
     const { selectedCustomer, loading, fetchOne, remove } = useCustomer()
-    const id = Number(router.params.id)
+    const id = Number(route.params.id)
     async function handleDelete(id) {
         const success = await remove(id)
         if (success) router.push({ name: 'customers.index' })
@@ -26,11 +27,11 @@
     <div class="layout">
         <AppSidebar />
         <main class="main">
-            <AppHeader title="Détail du client">
-                <AppButton variant="secondary" @click="router.back()"> ← Retour </AppButton>
+            <AppHeader title="Customer details">
+                <AppButton variant="secondary" @click="router.back()"> Back </AppButton>
             </AppHeader>
 
-            <div v-if="loading" class="loading">Chargement...</div>
+            <div v-if="loading" class="loading">Loading...</div>
 
             <Show
                 v-else-if="selectedCustomer"

@@ -27,7 +27,7 @@ function getInitial(name) {
 
 function formatDate(date) {
     if (!date) return '—'
-    return new Date(date).toLocaleDateString('fr-FR')
+    return new Date(date).toLocaleDateString('en-US')
 }
 </script>
 
@@ -35,20 +35,20 @@ function formatDate(date) {
     <div class="table-wrap">
 
         <div v-if="loading" class="loading">
-            Chargement des utilisateurs...
+            Loading users...
         </div>
 
         <div v-else-if="filteredUsers.length === 0" class="empty">
-            Aucun utilisateur trouvé.
+            No users found.
         </div>
 
         <table v-else>
             <thead>
                 <tr>
                     <th>Avatar</th>
-                    <th>Nom</th>
+                    <th>Name</th>
                     <th>Email</th>
-                    <th>Créé le</th>
+                    <th>Created on</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -66,21 +66,21 @@ function formatDate(date) {
                         <div class="actions">
                             <button
                                 class="btn-action btn-show"
-                                title="Voir"
+                                title="View"
                                 @click="emit('show', user)"
                             >
                                 <i class="fas fa-eye"></i>
                             </button>
                             <button
                                 class="btn-action btn-edit"
-                                title="Modifier"
+                                title="Edit"
                                 @click="goToEdit(user)"
                             >
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button
                                 class="btn-action btn-delete"
-                                title="Supprimer"
+                                title="Delete"
                                 @click="emit('delete', user.id)"
                             >
                                 <i class="fas fa-trash"></i>

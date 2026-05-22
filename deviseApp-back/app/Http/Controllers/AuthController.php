@@ -20,6 +20,14 @@ class AuthController extends Controller
         return $this->authRepository->login($request);
     }
 
+    public function me(Request $request)
+    {
+        return response()->json([
+            'success' => true,
+            'data'    => $request->user()->load('accessRights'),
+        ]);
+    }
+
     public function logout(Request $request)
     {
         return $this->authRepository->logout($request);

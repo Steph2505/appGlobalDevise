@@ -20,7 +20,7 @@ const id = Number(route.params.id)
 async function handleSubmit(formData) {
   const success = await update(id, formData)
   if (success) {
-    show({ message: 'Utilisateur modifié avec succès.' })
+    show({ message: 'User updated successfully.' })
     router.push({ name: 'users.index' })
   }
 }
@@ -35,11 +35,11 @@ onMounted(() => {
   <div class="layout">
     <AppSidebar />
     <main class="main">
-      <AppHeader title="Modifier l'utilisateur">
-        <AppButton variant="secondary" @click="router.back()"> Retour </AppButton>
+      <AppHeader title="Edit user">
+        <AppButton variant="secondary" @click="router.back()"> Back </AppButton>
       </AppHeader>
 
-      <div v-if="loading && !selectedUser" class="loading">Chargement...</div>
+      <div v-if="loading && !selectedUser" class="loading">Loading...</div>
 
       <div v-else class="form-wrap">
         <UserCreate

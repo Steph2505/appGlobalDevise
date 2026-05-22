@@ -20,26 +20,26 @@ async function handleLogin() {
   <div class="auth-page">
     <div class="auth-card">
       <div class="auth-logo">
-        <h1>DeviseApp</h1>
+        <h1>DevisApp</h1>
       </div>
 
-      <p class="auth-subtitle">Connectez-vous à votre compte</p>
+      <p class="auth-subtitle">Sign in to your account</p>
 
       <div class="auth-form">
         <AppInput
           v-model="form.email"
-          label="Adresse email"
+          label="Email address"
           type="email"
-          placeholder="jean@example.com"
+          placeholder="john@example.com"
           :error="errors.email?.[0]"
           required
         />
 
         <AppInput
           v-model="form.password"
-          label="Mot de passe"
+          label="Password"
           type="password"
-          placeholder="Votre mot de passe"
+          placeholder="Your password"
           :error="errors.password?.[0]"
           required
         />
@@ -48,7 +48,7 @@ async function handleLogin() {
         </p>
 
         <AppButton variant="primary" :loading="loading" style="width: 100%" @click="handleLogin">
-          Se connecter
+          Sign in
         </AppButton>
       </div>
     </div>

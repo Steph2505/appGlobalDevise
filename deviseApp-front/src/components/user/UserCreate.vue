@@ -52,25 +52,25 @@ function handleSubmit() {
     <div class="form">
       <AppInput
         v-model="form.name"
-        label="Nom complet"
-        placeholder="ex: Jean Dupont"
+        label="Full name"
+        placeholder="e.g. John Doe"
         :error="errors.name?.[0]"
         required
       />
 
       <AppInput
         v-model="form.email"
-        label="Adresse email"
+        label="Email address"
         type="email"
-        placeholder="ex: jean@example.com"
+        placeholder="e.g. john@example.com"
         :error="errors.email?.[0]"
         required
       />
 
       <AppSelect
         v-model="form.profil_id"
-        label="Profil"
-        placeholder="Choisir un profil..."
+        label="Profile"
+        placeholder="Choose a profile..."
         :options="profilOptions"
         :error="errors.profil_id?.[0]"
         required
@@ -79,7 +79,7 @@ function handleSubmit() {
 
       <AppCheckboxGroup
         v-model="form.access_rights"
-        label="Droits d'accès"
+        label="Access rights"
         :options="access"
         :error="errors.access_rights?.[0]"
       />
@@ -87,9 +87,9 @@ function handleSubmit() {
       <p v-if="errors.general" class="error-general">{{ errors.general }}</p>
 
       <div class="form-footer">
-        <AppButton variant="secondary" @click="emit('cancel')"> Annuler </AppButton>
+        <AppButton variant="secondary" @click="emit('cancel')"> Cancel </AppButton>
         <AppButton variant="primary" :loading="loading" @click="handleSubmit">
-          {{ user ? 'Modifier' : 'Enregistrer' }}
+          {{ user ? 'Edit' : 'Save' }}
         </AppButton>
       </div>
     </div>
@@ -101,12 +101,14 @@ function handleSubmit() {
   display: flex;
   justify-content: center;
 }
+
 .form {
   display: flex;
   flex-direction: column;
   gap: var(--s-lg);
   width: 600px;
 }
+
 
 .error-general {
   font-size: var(--f-md);

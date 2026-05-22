@@ -9,9 +9,9 @@ const { logout, user } = useAuth()
 const useStore = useAuthStore()
 
 const navLinks = [
-  { name: 'Devises',       path: '/devises', icon: 'fas fa-money-bill' },
-  { name: 'Clients',       path: '/customers',   icon: 'fas fa-user', permission: 'gestion_user' },
-  { name: 'Utilisateurs',  path: '/users',   icon: 'fas fa-users', permission: 'gestion_user' },
+  { name: 'Quotes',     path: '/devis',     icon: 'fas fa-file-invoice-dollar' },
+  { name: 'Customers',  path: '/customers', icon: 'fas fa-user', permission: 'index_customer' },
+  { name: 'Users',      path: '/users',     icon: 'fas fa-users', permission: 'gestion_user' },
 ]
 
 const isOpen = ref(false)
@@ -22,7 +22,6 @@ watch(route, () => { isOpen.value = false })
 </script>
 
 <template>
-  <!-- Backdrop mobile (Teleport hors du flux) -->
   <Teleport to="body">
     <Transition name="backdrop">
       <div v-if="isOpen" class="backdrop" @click="isOpen = false" />
@@ -31,14 +30,13 @@ watch(route, () => { isOpen.value = false })
 
   <aside class="sidebar" :class="{ 'is-open': isOpen }">
 
-    <!-- En-tête : logo + hamburger -->
     <div class="sidebar-header">
       <div class="logo">
-        <span class="logo-text">DeviseApp</span>
+        <span class="logo-text">DevisApp</span>
       </div>
       <button
         class="hamburger"
-        :aria-label="isOpen ? 'Fermer le menu' : 'Ouvrir le menu'"
+        :aria-label="isOpen ? 'Close menu' : 'Open menu'"
         @click="isOpen = !isOpen"
       >
         <span class="bar" />
@@ -47,7 +45,6 @@ watch(route, () => { isOpen.value = false })
       </button>
     </div>
 
-    <!-- Navigation -->
     <nav class="nav" @click="isOpen = false">
       <template v-for="link in navLinks" :key="link.path">
         <router-link
@@ -62,7 +59,6 @@ watch(route, () => { isOpen.value = false })
       </template>
     </nav>
 
-    <!-- Pied de page -->
     <div class="sidebar-footer">
       <div class="user-info">
         <div class="user-avatar">
@@ -75,7 +71,7 @@ watch(route, () => { isOpen.value = false })
       </div>
       <button class="logout-btn" @click="logout">
         <i class="fas fa-sign-out-alt" />
-        <span class="logout-label">Déconnexion</span>
+        <span class="logout-label">Log out</span>
       </button>
     </div>
 
@@ -83,7 +79,6 @@ watch(route, () => { isOpen.value = false })
 </template>
 
 <style scoped>
-/* ══════════════════════ BASE (desktop ≥ 1024px) ══════════════════════ */
 .sidebar {
     width: var(--sidebar-w);
     height: 100vh;
@@ -119,7 +114,6 @@ watch(route, () => { isOpen.value = false })
     white-space: nowrap;
 }
 
-/* Hamburger — masqué sur desktop */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -145,12 +139,17 @@ watch(route, () => { isOpen.value = false })
     transition: transform 0.28s ease, opacity 0.2s ease;
 }
 
-/* Animation hamburger → croix */
-.is-open .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.is-open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.is-open .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.is-open .bar:nth-child(1) {
+   transform: translateY(7px) rotate(45deg);
+   }
+.is-open .bar:nth-child(2) { 
+  opacity: 0; transform: scaleX(0); 
+}
+.is-open .bar:nth-child(3) { 
+  transform: translateY(-7px) rotate(-45deg); 
+}
 
-/* Nav */
+
 .nav {
     display: flex;
     flex-direction: column;
@@ -186,7 +185,6 @@ watch(route, () => { isOpen.value = false })
     flex-shrink: 0;
 }
 
-/* Footer */
 .sidebar-footer {
     border-top: 1px solid var(--border);
     padding-top: var(--s-lg);
@@ -255,7 +253,6 @@ watch(route, () => { isOpen.value = false })
 
 .logout-btn:hover { background: var(--danger-light); }
 
-/* Backdrop */
 .backdrop {
     position: fixed;
     inset: 0;
@@ -268,7 +265,6 @@ watch(route, () => { isOpen.value = false })
 .backdrop-enter-from,
 .backdrop-leave-to { opacity: 0; }
 
-/* ══════════════════════ TABLETTE (768px – 1023px) ══════════════════════ */
 @media (min-width: 768px) and (max-width: 1023px) {
     .sidebar {
         width: var(--sidebar-collapsed-w);
@@ -281,10 +277,9 @@ watch(route, () => { isOpen.value = false })
         width: 100%;
     }
 
-    .logo-text    { display: none; }
-    .nav-label    { display: none; }
-    .user-details { display: none; }
-    .logout-label { display: none; }
+    .logo-text, .nav-label, .user-details, .logout-label{ 
+      display: none; 
+    }
 
     .nav-link {
         justify-content: center;
@@ -295,7 +290,6 @@ watch(route, () => { isOpen.value = false })
     .logout-btn { padding: var(--s-sm); }
 }
 
-/* ══════════════════════ MOBILE (< 768px) ══════════════════════ */
 @media (max-width: 767px) {
     .sidebar {
         width: 100%;
@@ -318,7 +312,6 @@ watch(route, () => { isOpen.value = false })
 
     .hamburger { display: flex; }
 
-    /* Dropdown nav animé */
     .nav {
         position: absolute;
         top: var(--topbar-h);

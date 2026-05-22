@@ -19,6 +19,12 @@
   --bg-white:#FFFFFF;
   --bg-soft:#FAFAFA;
   --bg-gray:#F3F3F3;
+  --bg-light:#F8F7FF;
+
+  --badge-valid-bg:#EAF3DE;
+  --badge-valid-text:#3B6D11;
+  --badge-draft-bg:#F3F3F3;
+  --badge-draft-text:#999999;
 
   --border:#EEEEEE;
   --border-focus:#533AB7;

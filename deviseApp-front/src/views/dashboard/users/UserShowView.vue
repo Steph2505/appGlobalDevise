@@ -31,11 +31,11 @@ onMounted(() => fetchOne(id))
   <div class="layout">
     <AppSidebar />
     <main class="main">
-      <AppHeader title="Détail de l'utilisateur">
-        <AppButton variant="secondary" @click="router.back()"> Retour </AppButton>
+      <AppHeader title="User details">
+        <AppButton variant="secondary" @click="router.back()"> Back </AppButton>
       </AppHeader>
 
-      <div v-if="loading" class="loading">Chargement...</div>
+      <div v-if="loading" class="loading">Loading...</div>
 
       <UserShow
         v-else-if="selectedUser"

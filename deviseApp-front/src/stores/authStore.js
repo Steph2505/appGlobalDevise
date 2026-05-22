@@ -99,7 +99,7 @@ function permission({ permission }) {
 
     // Identifiants incorrects
     if (status === 401) {
-    errors.value = { general: 'Email ou mot de passe incorrect.' }
+    errors.value = { general: 'Incorrect email or password.' }
     return
     }
 
@@ -116,7 +116,7 @@ function permission({ permission }) {
     }
 
     // Erreur inconnue
-    errors.value = { general: 'Une erreur est survenue. Réessayez.' }
+    errors.value = { general: 'An error occurred. Please try again.' }
     }
 
   return {

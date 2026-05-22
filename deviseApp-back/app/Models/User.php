@@ -48,9 +48,9 @@ class User extends Authenticatable
         return $this->belongsTo(Profil::class, 'profil_id');
     }
 
-    public function devises()
+    public function devis()
     {
-        return $this->hasMany(Devise::class);
+        return $this->hasMany(Devis::class);
     }
 
     public function accessRights()

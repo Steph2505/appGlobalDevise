@@ -23,31 +23,33 @@ const emit = defineEmits(['edit', 'delete'])
                     <span class="detail-value">{{ customer.email }}</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">Téléphone</span>
+                    <span class="detail-label">Phone</span>
                     <span class="detail-value">{{ customer.phone }}</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">Adresse</span>
+                    <span class="detail-label">Address</span>
                     <span class="detail-value">{{ customer.address }}</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">Créé le</span>
+                    <span class="detail-label">Created on</span>
                     <span class="detail-value">
-                        {{ new Date(customer.created_at).toLocaleDateString('fr-FR') }}
+                        {{ new Date(customer.created_at).toLocaleDateString('en-US') }}
                     </span>
                 </div>
             </div>
         </div>
         <div class="card-footer">
-            <AppButton variant="secondary" @click="emit('edit', customer)"> Modifier </AppButton>
-            <AppButton variant="danger" @click="emit('delete', customer.id)"> Supprimer </AppButton>
+            <AppButton variant="secondary" @click="emit('edit', customer)"> Edit </AppButton>
+            <AppButton variant="danger" @click="emit('delete', customer.id)"> Delete </AppButton>
         </div>
     </div>
 </template>
 <style scoped>
 .content-card {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap:var(--s-xl);
 }
 
 .card {

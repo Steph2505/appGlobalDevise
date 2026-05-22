@@ -1,24 +1,25 @@
 <script setup>
     import { onMounted } from 'vue'
-    import { useRouter } from 'vue-router'
+    import { useRoute, useRouter } from 'vue-router'
     import { useCustomer } from '@/composable/useCustomer'
     import { useToast } from '@/composable/useToast'
 
     import AppSidebar from '@/components/globales/AppSidebar.vue'
     import AppHeader from '@/components/globales/AppHeader.vue'
-    import AppButton from '@/components/globales/AppButton.vue' 
+    import AppButton from '@/components/globales/AppButton.vue'
     import Create from '@/components/customer/Create.vue'
 
+    const route  = useRoute()
     const router = useRouter()
 
     const { selectedCustomer, loading, errors, fetchOne, update } = useCustomer()
     const { show } = useToast()
 
-    const id = Number(router.params.id)
+    const id = Number(route.params.id)
     async function handleSubmit(formData) {
         const success = await update(id, formData)
         if (success) {
-            show({ message: 'Client modifié avec succès.' })
+            show({ message: 'Customer updated successfully.' })
             router.push({ name: 'customers.index' })
         }
     }
@@ -30,11 +31,11 @@
     <div class="layout">
         <AppSidebar />
         <main class="main">
-            <AppHeader title="Modifier le client">
-                <AppButton variant="secondary" @click="router.back()"> ← Retour </AppButton>
+            <AppHeader title="Edit customer">
+                <AppButton variant="secondary" @click="router.back()"> Back </AppButton>
             </AppHeader>
 
-            <div v-if="loading && !selectedCustomer" class="loading">Chargement...</div>
+            <div v-if="loading && !selectedCustomer" class="loading">Loading...</div>
 
             <div v-else class="form-wrap">
                 <Create

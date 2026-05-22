@@ -1,7 +1,7 @@
 <script setup>
 
 defineProps({
-  totalCustomers: { type: Number, default: 0 },
+  total: { type: Number, default: 0 },
 })
 
 </script>
@@ -10,9 +10,8 @@ defineProps({
 
     <div class="stat-grid">
         <div class="stat-card">
-            <p class="stat-label">Total clients</p>
-            <p class="stat-value">{{ totalCustomers }}</p>
-            <p class="stat-sub">enregistrés</p>
+            <p class="stat-label">Total customers</p>
+            <p class="stat-value">{{ total }}</p>
         </div>
     </div>
 

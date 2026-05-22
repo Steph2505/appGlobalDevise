@@ -51,7 +51,7 @@ export function useUser() {
     }
 
     async function remove(id) {
-        const confirmed = window.confirm('Voulez-vous vraiment supprimer cet utilisateur ?')
+        const confirmed = window.confirm('Are you sure you want to delete this user?')
         if (!confirmed) return false
         try {
             await userStore.remove(id)

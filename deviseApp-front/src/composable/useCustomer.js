@@ -1,75 +1,43 @@
-import {useCustomerStore} from "@/stores/customerStore";
-import {storeToRefs} from "pinia";
+import { useCustomerStore } from '@/stores/customerStore'
+import { storeToRefs } from 'pinia'
 
 export function useCustomer() {
 
-    const customerStoreInstance = useCustomerStore()
+    const store = useCustomerStore()
     const {
-        customers,
-        selectedCustomer,
-        totalCustomers,
-        isLoading,
-        errors,
-    } = storeToRefs(customerStoreInstance)
+        customers, selectedCustomer, loading, errors, totalCustomers,
+    } = storeToRefs(store)
 
     async function fetchAll() {
-        try {
-            await customerStoreInstance.fetchAll()
-        } catch (error) {
-            console.log('Erreur chargement clients :', error)
-        }
+        try { await store.fetchAll() }
+        catch (e) { console.log('Erreur chargement clients :', e) }
     }
 
     async function fetchOne(id) {
-        try {
-            await customerStoreInstance.fetchOne(id)
-        } catch (error) {
-            console.log('Erreur chargement client :', error)
-        }
+        try { await store.fetchOne(id) }
+        catch (e) { console.log('Erreur chargement client :', e) }
     }
 
     async function create(data) {
-        try {
-            await customerStoreInstance.create(data)
-            return true
-        } catch (error) {
-            console.log('Erreur création client :', error)
-            return false
-        }
+        try { await store.create(data); return true }
+        catch (e) { console.log('Erreur création client :', e); return false }
     }
 
     async function update(id, data) {
-        try {
-            await customerStoreInstance.update(id, data)
-            return true
-        } catch (error) {
-            console.log('Erreur modification client :', error)
-            return false
-        }
+        try { await store.update(id, data); return true }
+        catch (e) { console.log('Erreur modification client :', e); return false }
     }
 
     async function remove(id) {
-        const confirmed = window.confirm('Voulez-vous vraiment supprimer ce client ?')
+        const confirmed = window.confirm('Are you sure you want to delete this customer?')
         if (!confirmed) return false
-        try {
-            await customerStoreInstance.delete(id)
-            return true
-        } catch (error) {
-            console.log('Erreur suppression client :', error)
-            return false
-        }
+        try { await store.remove(id); return true }
+        catch (e) { console.log('Erreur suppression client :', e); return false }
     }
 
     return {
-        customers,
-        selectedCustomer,
-        totalCustomers,
-        isLoading,
-        errors,
-        fetchAll,
-        fetchOne,
-        create,
-        update,
-        remove,
+        customers, selectedCustomer, loading, errors, totalCustomers,
+        fetchAll, fetchOne, create, update, remove,
+        clearSelected: store.clearSelected,
     }
-}   
+}

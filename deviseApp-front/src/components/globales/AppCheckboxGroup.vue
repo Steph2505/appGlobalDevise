@@ -65,8 +65,8 @@ function toggle(id) {
 }
 
 .checkbox-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--s-sm);
     border: 1px solid var(--border);
     border-radius: var(--r-md);
