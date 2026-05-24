@@ -13,7 +13,7 @@ class Devis extends Model
 
     protected $table = 'devis';
 
-    protected $fillable = ['client_id', 'user_id', 'status', 'montant_total'];
+    protected $fillable = ['client_id', 'user_id', 'status', 'montant_total', 'currency'];
 
     protected $casts = [
         'montant_total' => 'decimal:2',

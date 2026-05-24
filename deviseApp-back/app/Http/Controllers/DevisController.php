@@ -63,6 +63,7 @@ class DevisController extends Controller
                     'user_id' => auth()->id(),
                     'status' => $request->status,
                     'montant_total' => $request->montant_total,
+                    'currency' => $request->currency,
                 ],
                 $request->lignes
             );
@@ -130,6 +131,7 @@ class DevisController extends Controller
                     'client_id'=> $request->client_id,
                     'status' => $request->status,
                     'montant_total' => $request->montant_total,
+                    'currency' => $request->currency,
                 ],
                 $request->lignes
             );

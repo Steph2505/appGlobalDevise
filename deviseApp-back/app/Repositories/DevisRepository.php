@@ -27,6 +27,9 @@ class DevisRepository extends ResourceRepository
         return DB::transaction(function () use ($data, $lignes) {
             $devis = $this->model->create($data);
 
+            $devis->reference = 'REF-' . date('Y-m-d') . '-' . str_pad($devis->id, 4, '0', STR_PAD_LEFT);
+            $devis->save();
+
             foreach ($lignes as $ligne) {
                 $devis->lignes()->create($ligne);
             }

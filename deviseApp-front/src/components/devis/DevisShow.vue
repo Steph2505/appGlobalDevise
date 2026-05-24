@@ -7,8 +7,8 @@ const props = defineProps({
 
 const emit = defineEmits(['edit', 'delete'])
 
-function formatRef(id) {
-  return `DEV-${String(id).padStart(4, '0')}`
+function formatRef(ref) {
+  return ref ?? '—'
 }
 
 function formatMontant(val) {
@@ -25,7 +25,7 @@ function formatDate(str) {
     <div class="card">
       <div class="card-header">
         <div>
-          <span class="card-ref">{{ formatRef(devis.id) }}</span>
+          <span class="card-ref">{{ formatRef(devis.reference) }}</span>
         </div>
         <span :class="['status', devis.status === 'Validated' ? 'status-valid' : 'status-draft']">
           {{ devis.status }}
@@ -63,8 +63,8 @@ function formatDate(str) {
             <tr v-for="(l, i) in devis.lignes ?? []" :key="i">
               <td>{{ l.intitule }}</td>
               <td>{{ l.quantite }}</td>
-              <td>{{ formatMontant(l.prix_unitaire) }}</td>
-              <td class="cell-total">{{ formatMontant(l.total) }}</td>
+              <td>{{ formatMontant(l.prix_unitaire) }} {{ devis.currency ?? 'XAF' }}</td>
+              <td class="cell-total">{{ formatMontant(l.total) }} {{ devis.currency ?? 'XAF' }}</td>
             </tr>
             <tr v-if="!devis.lignes?.length">
               <td colspan="4" class="empty-lignes">No lines.</td>
@@ -75,7 +75,7 @@ function formatDate(str) {
 
       <div class="card-total">
         <span class="total-label">Total amount</span>
-        <span class="total-value">{{ formatMontant(devis.montant_total) }}</span>
+        <span class="total-value">{{ formatMontant(devis.montant_total) }} {{ devis.currency ?? 'XAF' }}</span>
       </div>
 
       <div class="card-footer" v-if="devis.status !== 'Validated'">

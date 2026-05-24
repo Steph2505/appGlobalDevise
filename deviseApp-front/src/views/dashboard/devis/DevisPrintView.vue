@@ -23,8 +23,8 @@ const company = {
   footer:   import.meta.env.VITE_COMPANY_FOOTER   ?? '',
 }
 
-function formatRef(devisId) {
-  return `DEV-${String(devisId).padStart(4, '0')}`
+function formatRef(ref) {
+  return ref ?? '—'
 }
 
 function formatDate(str) {
@@ -69,20 +69,13 @@ onMounted(() => fetchOne(id))
           <tbody>
             <tr>
               <td class="info-label">Reference:</td>
-              <td class="info-value">{{ formatRef(selectedDevis.id) }}</td>
+              <td class="info-value">{{ formatRef(selectedDevis.reference) }}</td>
             </tr>
             <tr>
               <td class="info-label">Date:</td>
               <td class="info-value">{{ formatDate(selectedDevis.created_at) }}</td>
             </tr>
-            <tr>
-              <td class="info-label">Status:</td>
-              <td class="info-value">
-                <span :class="['badge', selectedDevis.status === 'Validated' ? 'badge-valid' : 'badge-draft']">
-                  {{ selectedDevis.status === 'Validated' ? 'Validated' : 'Draft' }}
-                </span>
-              </td>
-            </tr>
+            
           </tbody>
         </table>
       </div>
@@ -113,8 +106,8 @@ onMounted(() => fetchOne(id))
           <td class="col-num center">{{ index + 1 }}</td>
           <td class="col-desc">{{ ligne.intitule }}</td>
           <td class="col-qty center">{{ ligne.quantite }}</td>
-          <td class="col-price right">{{ formatMontant(ligne.prix_unitaire) }} {{ company.currency }}</td>
-          <td class="col-total right bold">{{ formatMontant(ligne.total) }} {{ company.currency }}</td>
+          <td class="col-price right">{{ formatMontant(ligne.prix_unitaire) }} {{ selectedDevis.currency ?? 'XAF' }}</td>
+          <td class="col-total right bold">{{ formatMontant(ligne.total) }} {{ selectedDevis.currency ?? 'XAF' }}</td>
         </tr>
 
         
@@ -128,7 +121,7 @@ onMounted(() => fetchOne(id))
     <div class="total-section">
       <div class="total-box">
         <span class="total-label">Total amount</span>
-        <span class="total-value">{{ formatMontant(selectedDevis.montant_total) }} {{ company.currency }}</span>
+        <span class="total-value">{{ formatMontant(selectedDevis.montant_total) }} {{ selectedDevis.currency ?? 'XAF' }}</span>
       </div>
     </div>
 

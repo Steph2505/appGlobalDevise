@@ -16,9 +16,6 @@ function goToPrint(d) {
   router.push({ name: 'devis.print', params: { id: d.id } })
 }
 
-function formatRef(id) {
-  return `DEV-${String(id).padStart(4, '0')}`
-}
 
 function formatMontant(val) {
   return Number(val ?? 0).toLocaleString('fr-FR', { minimumFractionDigits: 2 })
@@ -50,7 +47,7 @@ function formatDate(str) {
       <tbody>
         <tr v-for="d in devis" :key="d.id">
           <td>
-            <span class="ref-chip">{{ formatRef(d.id) }}</span>
+            <span class="ref-chip">{{ d.reference ?? '—' }}</span>
           </td>
           <td>{{ d.client?.name ?? '—' }}</td>
           <td>
@@ -58,7 +55,7 @@ function formatDate(str) {
               {{ d.status }}
             </span>
           </td>
-          <td class="montant">{{ formatMontant(d.montant_total) }}</td>
+          <td class="montant">{{ formatMontant(d.montant_total) }} {{ d.currency ?? 'XAF' }}</td>
           <td>{{ formatDate(d.created_at) }}</td>
           <td>
             <div class="actions">

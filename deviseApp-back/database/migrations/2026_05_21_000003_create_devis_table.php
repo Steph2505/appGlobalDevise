@@ -16,6 +16,7 @@ return new class extends Migration
 
         Schema::create('devis', function (Blueprint $table) {
             $table->id();
+            $table->string('reference')->unique()->nullable();
             $table->foreignId('client_id')->constrained('customers')->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->enum('status', ['Drafts', 'Validated'])->default('Drafts');

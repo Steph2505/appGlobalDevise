@@ -23,7 +23,7 @@ const searchQuery = ref('')
 
 const filteredDevis = computed(() =>
   (devis.value ?? []).filter((d) => {
-    const ref   = String(d.id).padStart(4, '0')
+    const ref   = String(d.reference).toLowerCase()
     const client = (d.client?.name ?? '').toLowerCase()
     const query  = searchQuery.value.toLowerCase()
     return client.includes(query) || ref.includes(query)

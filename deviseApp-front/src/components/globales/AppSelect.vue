@@ -18,10 +18,16 @@ import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
   const rootRef    = ref(null)
   const inputRef   = ref(null)
 
+  function sameValue(a, b) {
+    if (a === b) return true
+    const na = Number(a), nb = Number(b)
+    return !isNaN(na) && !isNaN(nb) && na === nb
+  }
+
   const selectedLabel = computed(() => {
     const val = props.modelValue
     if (val === '' || val === null || val === undefined) return ''
-    return props.options.find(o => Number(o.value) === Number(val))?.label ?? ''
+    return props.options.find(o => sameValue(o.value, val))?.label ?? ''
   })
 
   const filteredOptions = computed(() =>
@@ -52,7 +58,7 @@ import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
   }
 
   function select(option) {
-    emit('update:modelValue', Number(option.value))
+    emit('update:modelValue', option.value)
     isOpen.value = false
     searchQuery.value = ''
     inputRef.value?.blur()
@@ -105,10 +111,10 @@ import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
             <li
               v-for="option in filteredOptions"
               :key="option.value"
-              :class="['option', { 'option-active': Number(option.value) === Number(modelValue) }]"
+              :class="['option', { 'option-active': sameValue(option.value, modelValue) }]"
               @mousedown.prevent="select(option)"
             >
-              <svg v-if="Number(option.value) === Number(modelValue)" class="check-icon" viewBox="0 0 24 24" width="14" height="14">
+              <svg v-if="sameValue(option.value, modelValue)" class="check-icon" viewBox="0 0 24 24" width="14" height="14">
                 <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
               </svg>
               <span v-else class="check-placeholder" />

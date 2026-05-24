@@ -48,7 +48,7 @@ async function handleLogin() {
         </p>
 
         <AppButton variant="primary" :loading="loading" style="width: 100%" @click="handleLogin">
-          Sign in
+          Sign in 
         </AppButton>
       </div>
     </div>
