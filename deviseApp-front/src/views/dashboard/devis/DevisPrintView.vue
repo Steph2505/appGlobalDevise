@@ -416,35 +416,38 @@ onMounted(() => fetchOne(id))
   margin: 0;
 }
 
+@page {
+  size: A4;
+  margin: 0;
+}
+
 @media print {
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
   .no-print { display: none !important; }
 
   .document {
     width: 100%;
+    min-height: unset;
     margin: 0;
-    padding: 12mm 14mm 28mm;
+    padding: 15mm 14mm 18mm;
     box-shadow: none;
   }
 
-  /* Footer fixé en bas de chaque page imprimée */
   .doc-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 8px 14mm 6mm;
-    background: white;
-    margin-top: 0;
+    position: static;
+    margin-top: auto;
+    padding-top: 10px;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
-  .lines-table thead tr {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .total-box, .badge {
+  .lines-table thead tr,
+  .total-box,
+  .badge {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
