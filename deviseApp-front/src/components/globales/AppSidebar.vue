@@ -12,6 +12,7 @@ const navLinks = [
   { name: 'Quotes',     path: '/devis',     icon: 'fas fa-file-invoice-dollar' },
   { name: 'Customers',  path: '/customers', icon: 'fas fa-user', permission: 'index_customer' },
   { name: 'Users',      path: '/users',     icon: 'fas fa-users', permission: 'gestion_user' },
+  { name: 'Settings',   path: '/settings',  icon: 'fas fa-cog' },
 ]
 
 const isOpen = ref(false)

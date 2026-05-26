@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DevisController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}',    [CustomerController::class, 'update']);
         Route::delete('/{id}', [CustomerController::class, 'destroy']);
     });
+
+    // Paramètres entreprise
+    Route::get('/settings',  [SettingsController::class, 'show']);
+    Route::put('/settings',  [SettingsController::class, 'update']);
 
     // Utilisateurs
     Route::prefix('users')->group(function () {

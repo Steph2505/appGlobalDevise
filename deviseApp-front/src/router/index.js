@@ -14,6 +14,8 @@ import UserCreateView from '@/views/dashboard/users/UserCreateView.vue'
 import UserEditView   from '@/views/dashboard/users/UserEditView.vue'
 import UserShowView   from '@/views/dashboard/users/UserShowView.vue'
 
+import SettingsView from '@/views/dashboard/SettingsView.vue'
+
 import CustomersView from '@/views/dashboard/CustomersView.vue'
 import CreateView    from '@/views/dashboard/customers/CreateView.vue'
 import EditView      from '@/views/dashboard/customers/EditView.vue'
@@ -62,6 +64,13 @@ const routes = [
     name: 'devis.print',
     component: DevisPrintView,
     meta: { requiresAuth: true, title: 'Print quote' },
+  },
+
+  {
+    path: '/settings',
+    name: 'settings',
+    component: SettingsView,
+    meta: { requiresAuth: true, title: 'Settings' },
   },
 
   // Customer routes

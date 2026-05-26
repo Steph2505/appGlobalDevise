@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useDevis } from '@/composable/useDevis'
+import { useSettingsStore } from '@/stores/settingsStore'
 
 const route  = useRoute()
 const router = useRouter()
@@ -9,19 +10,8 @@ const { selectedDevis, loading, fetchOne } = useDevis()
 
 const id = Number(route.params.id)
 
-// Informations de l'entreprise depuis le .env
-const company = {
-  name:     import.meta.env.VITE_COMPANY_NAME     ?? '',
-  address:  import.meta.env.VITE_COMPANY_ADDRESS  ?? '',
-  phone:    import.meta.env.VITE_COMPANY_PHONE    ?? '',
-  email:    import.meta.env.VITE_COMPANY_EMAIL    ?? '',
-  website:  import.meta.env.VITE_COMPANY_WEBSITE  ?? '',
-  siret:    import.meta.env.VITE_COMPANY_SIRET    ?? '',
-  taxId:    import.meta.env.VITE_COMPANY_TAX_ID   ?? '',
-  currency: import.meta.env.VITE_COMPANY_CURRENCY ?? 'FCFA',
-  logo:     import.meta.env.VITE_COMPANY_LOGO     ?? '',
-  footer:   import.meta.env.VITE_COMPANY_FOOTER   ?? '',
-}
+const settingsStore = useSettingsStore()
+const company = computed(() => settingsStore.company)
 
 function formatRef(ref) {
   return ref ?? '—'
@@ -39,7 +29,10 @@ function print() {
   window.print()
 }
 
-onMounted(() => fetchOne(id))
+onMounted(() => {
+  fetchOne(id)
+  settingsStore.fetch()
+})
 </script>
 
 <template>
@@ -64,7 +57,7 @@ onMounted(() => fetchOne(id))
 
 
       <div class="devis-info">
-        <h2 class="devis-title">DEVIS</h2>
+        <!-- <h2 class="devis-title">DEVIS</h2> -->
         <table class="info-table">
           <tbody>
             <tr>
@@ -75,7 +68,18 @@ onMounted(() => fetchOne(id))
               <td class="info-label">Date:</td>
               <td class="info-value">{{ formatDate(selectedDevis.created_at) }}</td>
             </tr>
-            
+            <tr>
+              <td class="info-label">Customer:</td>
+              <td class="info-value">{{ selectedDevis.client?.name ?? '—' }}</td>
+            </tr>
+            <tr>
+              <td class="info-label">Contact:</td>
+              <td class="info-value">{{ selectedDevis.client?.phone ?? '—' }}</td>
+            </tr>
+            <tr>
+              <td class="info-label">Address:</td>
+              <td class="info-value">{{ selectedDevis.client?.address ?? '—' }}</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -83,13 +87,13 @@ onMounted(() => fetchOne(id))
 
     <hr class="separator" />
 
-    <section class="client-section">
+    <!-- <section class="client-section">
       <p class="section-label">Quote to:</p>
       <p class="client-name">{{ selectedDevis.client?.name ?? '—' }}</p>
       <p v-if="selectedDevis.client?.email">{{ selectedDevis.client.email }}</p>
       <p v-if="selectedDevis.client?.phone">{{ selectedDevis.client.phone }}</p>
       <p v-if="selectedDevis.client?.address">{{ selectedDevis.client.address }}</p>
-    </section>
+    </section> -->
 
     <table class="lines-table">
       <thead>
@@ -106,8 +110,8 @@ onMounted(() => fetchOne(id))
           <td class="col-num center">{{ index + 1 }}</td>
           <td class="col-desc">{{ ligne.intitule }}</td>
           <td class="col-qty center">{{ ligne.quantite }}</td>
-          <td class="col-price right">{{ formatMontant(ligne.prix_unitaire) }} {{ selectedDevis.currency ?? 'XAF' }}</td>
-          <td class="col-total right bold">{{ formatMontant(ligne.total) }} {{ selectedDevis.currency ?? 'XAF' }}</td>
+          <td class="col-price">{{ formatMontant(ligne.prix_unitaire) }} {{ selectedDevis.currency ?? 'XAF' }}</td>
+          <td class="col-total left bold">{{ formatMontant(ligne.total) }} {{ selectedDevis.currency ?? 'XAF' }}</td>
         </tr>
 
         
@@ -120,7 +124,7 @@ onMounted(() => fetchOne(id))
     
     <div class="total-section">
       <div class="total-box">
-        <span class="total-label">Total amount</span>
+        <span class="total-label">Total amount : </span>
         <span class="total-value">{{ formatMontant(selectedDevis.montant_total) }} {{ selectedDevis.currency ?? 'XAF' }}</span>
       </div>
     </div>
@@ -315,8 +319,9 @@ onMounted(() => fetchOne(id))
 }
 
 .lines-table thead tr {
-  background: var(--primary);
-  color: var(--bg-white);
+  background: var(--primary-light);
+  color: var(--bg-black);
+  font-size: var(--f-md);
 }
 
 .lines-table th {
@@ -341,6 +346,7 @@ onMounted(() => fetchOne(id))
 .center { text-align: center; }
 .right  { text-align: right; }
 .bold   { font-weight: 600; }
+.left   { text-align: left; }
 
 .empty-row {
   text-align: center;
@@ -357,8 +363,8 @@ onMounted(() => fetchOne(id))
 }
 
 .total-box {
-  background: var(--primary);
-  color: var(--bg-white);
+  /* background: var(--primary-light); */
+  color: var(--bg-black);
   padding: 10px 20px;
   border-radius: 6px;
   display: flex;
@@ -401,6 +407,9 @@ onMounted(() => fetchOne(id))
   border-top: 1px solid #ddd;
   padding-top: 10px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
 
 .footer-legal {
@@ -414,6 +423,61 @@ onMounted(() => fetchOne(id))
   color: var(--text-3);
   font-style: italic;
   margin: 0;
+}
+
+@media (max-width: 640px) {
+  .controls {
+    padding: 10px 12px;
+  }
+
+  .document {
+    width: 100%;
+    margin: 0;
+    padding: 16px 12px 20px;
+    box-shadow: none;
+    border-radius: 0;
+    font-size: 9pt;
+  }
+
+  .doc-header {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .devis-info {
+    text-align: left;
+  }
+
+  .info-table {
+    margin-left: 0;
+  }
+
+  .info-label {
+    text-align: left;
+  }
+
+  .info-value {
+    text-align: left;
+  }
+
+  .col-price,
+  .col-total {
+    width: auto;
+  }
+
+  .lines-table th,
+  .lines-table td {
+    padding: 5px 6px;
+    font-size: 8pt;
+  }
+
+  .company-name {
+    font-size: 13pt;
+  }
+
+  .total-value {
+    font-size: 11pt;
+  }
 }
 
 @page {
@@ -431,25 +495,37 @@ onMounted(() => fetchOne(id))
 
   .document {
     width: 100%;
-    min-height: unset;
+    min-height: 297mm;
     margin: 0;
-    padding: 15mm 14mm 18mm;
+    padding: 15mm 14mm;
     box-shadow: none;
   }
 
   .doc-footer {
     position: static;
-    margin-top: auto;
-    padding-top: 10px;
+  }
+
+  * {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
-  .lines-table thead tr,
-  .total-box,
-  .badge {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  .lines-table {
+    page-break-inside: auto;
+  }
+
+  .lines-table thead {
+    display: table-header-group;
+  }
+
+  .lines-table tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .total-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
 </style>
