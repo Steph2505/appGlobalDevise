@@ -1,4 +1,5 @@
 <script setup>
+defineOptions({ inheritAttrs: false })
 
 const props = defineProps({
   modelValue: {
@@ -39,6 +40,7 @@ const emit = defineEmits(['update:modelValue'])
     </label>
 
     <input
+      v-bind="$attrs"
       :type="type"
       :value="modelValue"
       :placeholder="placeholder"

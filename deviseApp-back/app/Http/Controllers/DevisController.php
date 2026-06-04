@@ -44,7 +44,7 @@ class DevisController extends Controller
                 'montant_total' => 'required|numeric|min:0',
                 'lignes' => 'required|array|min:1',
                 'lignes.*.intitule' => 'required|string|max:500',
-                'lignes.*.quantite' => 'required|integer|min:1',
+                'lignes.*.quantite' => 'required|numeric|min:0',
                 'lignes.*.prix_unitaire' => 'required|numeric|min:0',
                 'lignes.*.total' => 'required|numeric|min:0',
             ]);
@@ -112,7 +112,7 @@ class DevisController extends Controller
                 'montant_total' => 'required|numeric|min:0',
                 'lignes' => 'required|array|min:1',
                 'lignes.*.intitule' => 'required|string|max:500',
-                'lignes.*.quantite' => 'required|integer|min:1',
+                'lignes.*.quantite' => 'required|numeric|min:0',
                 'lignes.*.prix_unitaire' => 'required|numeric|min:0',
                 'lignes.*.total'         => 'required|numeric|min:0',
             ]);

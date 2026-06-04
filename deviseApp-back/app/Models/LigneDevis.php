@@ -15,7 +15,7 @@ class LigneDevis extends Model
     protected $fillable = ['devis_id', 'intitule', 'quantite', 'prix_unitaire', 'total'];
 
     protected $casts = [
-        'quantite'      => 'integer',
+        'quantite'      => 'float',
         'prix_unitaire' => 'decimal:2',
         'total'         => 'decimal:2',
     ];

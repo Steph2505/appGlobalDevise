@@ -187,7 +187,8 @@ async function handleCreateClient(formData) {
               <AppInput
                 v-model="ligne.quantite"
                 type="number"
-                placeholder="1"
+                step="any"
+                placeholder="0.00"
                 :error="errors[`lignes.${index}.quantite`]?.[0]"
               />
             </div>

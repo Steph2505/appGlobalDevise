@@ -18,6 +18,10 @@ function formatMontant(val) {
 function formatDate(str) {
   return str ? new Date(str).toLocaleDateString('fr-FR') : '—'
 }
+
+function formatQuantite(val) {
+  return Number(val ?? 0).toLocaleString('fr-FR', { maximumFractionDigits: 3 })
+}
 </script>
 
 <template>
@@ -62,7 +66,7 @@ function formatDate(str) {
           <tbody>
             <tr v-for="(l, i) in devis.lignes ?? []" :key="i">
               <td>{{ l.intitule }}</td>
-              <td>{{ l.quantite }}</td>
+              <td>{{ formatQuantite(l.quantite) }}</td>
               <td>{{ formatMontant(l.prix_unitaire) }} {{ devis.currency ?? 'XAF' }}</td>
               <td class="cell-total">{{ formatMontant(l.total) }} {{ devis.currency ?? 'XAF' }}</td>
             </tr>

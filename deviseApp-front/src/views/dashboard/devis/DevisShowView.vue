@@ -40,7 +40,7 @@ onMounted(() => fetchOne(id))
         <AppButton variant="secondary" @click="router.back()">Back</AppButton>
       </AppHeader>
 
-      <div v-if="loading" class="loading">Loading...</div>
+      <div v-if="loading" class="loading">Loading...</div> 
 
       <DevisShow
         v-else-if="selectedDevis"

@@ -25,6 +25,10 @@ function formatMontant(val) {
   return Number(val ?? 0).toLocaleString('fr-FR', { minimumFractionDigits: 2 })
 }
 
+function formatQuantite(val) {
+  return Number(val ?? 0).toLocaleString('fr-FR', { maximumFractionDigits: 3 })
+}
+
 function print() {
   window.print()
 }
@@ -109,7 +113,7 @@ onMounted(() => {
         <tr v-for="(ligne, index) in selectedDevis.lignes ?? []" :key="index">
           <td class="col-num center">{{ index + 1 }}</td>
           <td class="col-desc">{{ ligne.intitule }}</td>
-          <td class="col-qty center">{{ ligne.quantite }}</td>
+          <td class="col-qty center">{{ formatQuantite(ligne.quantite) }}</td> 
           <td class="col-price">{{ formatMontant(ligne.prix_unitaire) }} {{ selectedDevis.currency ?? 'XAF' }}</td>
           <td class="col-total left bold">{{ formatMontant(ligne.total) }} {{ selectedDevis.currency ?? 'XAF' }}</td>
         </tr>
